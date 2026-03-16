@@ -1,0 +1,8 @@
+# Biblioteca para realizar as requisições HTTP (usada pelo Crawler e Auditor)
+requests>=2.31.0
+
+# Biblioteca para ler e extrair os links do HTML (usada pelo Crawler)
+beautifulsoup4>=4.12.0
+
+# Biblioteca para criar relatórios e alertas coloridos no terminal (usada na Interface)
+rich>=13.7.0
