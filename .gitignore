@@ -1,0 +1,15 @@
+# Ignorar arquivos de compilação do Python
+__pycache__/
+*.py[cod]
+
+# Ignorar ambientes virtuais (onde ficam as bibliotecas isoladas)
+venv/
+.env/
+env/
+
+# Ignorar configurações locais de editores
+.vscode/
+
+# Ignorar arquivos de relatório gerados durante os testes na máquina de cada um
+*.log
+relatorio_teste.txt
