@@ -1,21 +1,52 @@
-# CyLock-Web-Scout
+# CyLock Web Scout
 
-### 1. `main.py`
-**Responsável:** Code-Leader(Erick)
-* **O que faz:** É o coração do programa. A função dele é receber a URL que o usuário digitou no terminal e coordenar a ordem de execução dos outros arquivos. 
-* **Como funciona:** Ele chama o `spider.py` para mapear o site, pega a lista de links devolvida, passa para o `scanner.py` auditar e, por fim, manda o `exportar.py` exibir os resultados.
+O **CyLock Web Scout** é uma ferramenta de linha de comando (CLI) desenvolvida em Python para mapeamento automatizado de URLs (*Crawling*) e auditoria passiva de cabeçalhos de segurança HTTP. 
 
-### 2. `crawler/spider.py`(Thierry, Bernardo)
-**Responsáveis:** Dupla de Mapeamento
-* **O que faz:** É o motor de busca. A missão deste script é entrar no site alvo e extrair todos os caminhos possíveis.
-* **O que você vai codar aqui:** Usando as bibliotecas `requests` e `BeautifulSoup`, você vai escrever uma função que acessa uma URL, baixa o código HTML da página e garimpa todas as tags de link (`<a href="...">`), devolvendo uma lista limpa com essas URLs descobertas.
+---
 
-### 3. `auditor/scanner.py`(Guilherme)
-**Responsável:** Analista de Segurança
-* **O que faz:** Este arquivo atua como um auditor passivo.
-* **O que você vai codar aqui:** Você vai criar funções que recebem os links descobertos pelo Crawler e analisam as respostas do servidor (os *HTTP Headers*). O objetivo é usar o `requests` para verificar se faltam cabeçalhos de segurança básicos (como proteções contra Clickjacking ou ausência de forçamento HTTPS) e devolver uma lista de vulnerabilidades.
+## Funcionalidades
 
-### 4. `relatorios/exportar.py`(Ian)
-**Responsável:** Documentador / UX
-* **O que faz:** É o responsável por pegar os dados brutos e transformá-los em algo legível para o usuário final.
-* **O que você vai codar aqui:** Você vai usar a biblioteca `rich` para formatar a saída do programa no terminal (colocando alertas críticos em vermelho, informativos em azul, etc.) e criar a lógica para salvar todo o resumo do escaneamento em um arquivo `.txt` organizado.
+* **Web Crawler Resiliente:** Navega a partir de uma URL alvo mapeando todos os links internos, com tratamento robusto contra quedas de conexão, *timeouts* e *loops* infinitos (utilizando estruturas `Set`).
+* **Scanner de Segurança Inteligente:** Analisa os *HTTP Headers* em busca de falhas de configuração, mitigando falsos positivos. Detecta:
+  * Ausência ou má configuração de HSTS (*Strict-Transport-Security*).
+  * Proteções legadas ou ausentes contra Clickjacking (*X-Frame-Options* e *Content-Security-Policy*).
+  * Ausência total de CSP (Risco de XSS).
+* **Interface de Usuário (UX) e Relatórios:** Exibe o progresso e os resultados em uma tabela interativa colorida diretamente no terminal, além de exportar relatórios padronizados em `.txt`.
+
+---
+
+## Como Instalar e Rodar
+
+### Pré-requisitos
+Certifique-se de ter o Python 3 instalado em sua máquina.
+
+### Instalação
+1. Clone este repositório:
+```bash
+git clone [https://github.com/ErickOlivr/CyLock-Web-Scout.git](https://github.com/ErickOlivr/CyLock-Web-Scout.git)
+```
+Acesse a pasta do projeto:
+```bash
+cd CyLock-Web-Scout
+```
+Instale as bibliotecas necessárias (requests, beautifulsoup4, rich):
+```bash
+pip install -r requirements.txt
+```
+### Modo de Uso
+Para rodar a varredura, utilize o arquivo principal main.py passando a URL alvo com a flag -u. Você também pode usar a flag -o para gerar o relatório final.
+
+Exemplo básico:
+```bash
+python main.py -u [http://toscrape.com](http://toscrape.com) -o relatorio.txt
+```
+
+Equipe de Desenvolvimento
+
+### O CyLock Web Scout foi construído por uma equipe de 3 integrantes, divididos por responsabilidades e módulos:
+
+Erick Oliveira - Code-Leader , Arquitetura e UX e Documentação de Relatórios (relatorios/exports.py)
+
+Thierry - Engenharia do Mapeador Web (Crawler/spider.py)
+
+Bernardo - Análise de Segurança (Auditor/scanner.py)
