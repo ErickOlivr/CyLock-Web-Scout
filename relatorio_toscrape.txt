@@ -1,0 +1,157 @@
+============================================================
+ RELATÓRIO DE AUDITORIA - CYLOCK WEB SCOUT
+============================================================
+Data do escaneamento: 18/03/2026 às 22:58:50
+
+[!] Atenção: Foram detectadas 30 vulnerabilidades.
+
+--- ALERTA #1 ---
+URL Afetada  : http://quotes.toscrape.com
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #2 ---
+URL Afetada  : http://quotes.toscrape.com
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #3 ---
+URL Afetada  : http://quotes.toscrape.com
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #4 ---
+URL Afetada  : http://quotes.toscrape.com/login
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #5 ---
+URL Afetada  : http://quotes.toscrape.com/login
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #6 ---
+URL Afetada  : http://quotes.toscrape.com/login
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #7 ---
+URL Afetada  : http://quotes.toscrape.com/search.aspx
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #8 ---
+URL Afetada  : http://quotes.toscrape.com/search.aspx
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #9 ---
+URL Afetada  : http://quotes.toscrape.com/search.aspx
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #10 ---
+URL Afetada  : http://quotes.toscrape.com/tableful
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #11 ---
+URL Afetada  : http://quotes.toscrape.com/tableful
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #12 ---
+URL Afetada  : http://quotes.toscrape.com/tableful
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #13 ---
+URL Afetada  : http://quotes.toscrape.com/
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #14 ---
+URL Afetada  : http://quotes.toscrape.com/
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #15 ---
+URL Afetada  : http://quotes.toscrape.com/
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #16 ---
+URL Afetada  : http://quotes.toscrape.com/js
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #17 ---
+URL Afetada  : http://quotes.toscrape.com/js
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #18 ---
+URL Afetada  : http://quotes.toscrape.com/js
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #19 ---
+URL Afetada  : http://books.toscrape.com
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #20 ---
+URL Afetada  : http://books.toscrape.com
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #21 ---
+URL Afetada  : http://books.toscrape.com
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #22 ---
+URL Afetada  : http://quotes.toscrape.com/random
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #23 ---
+URL Afetada  : http://quotes.toscrape.com/random
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #24 ---
+URL Afetada  : http://quotes.toscrape.com/random
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #25 ---
+URL Afetada  : http://quotes.toscrape.com/js-delayed
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #26 ---
+URL Afetada  : http://quotes.toscrape.com/js-delayed
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #27 ---
+URL Afetada  : http://quotes.toscrape.com/js-delayed
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #28 ---
+URL Afetada  : http://quotes.toscrape.com/scroll
+Falha        : Proteção contra Clickjacking ausente ou inválida
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #29 ---
+URL Afetada  : http://quotes.toscrape.com/scroll
+Falha        : Ausência ou má configuração de HSTS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #30 ---
+URL Afetada  : http://quotes.toscrape.com/scroll
+Falha        : Ausência total de CSP (Risco de XSS)
+Severidade   : Média
+------------------------------------------------------------
