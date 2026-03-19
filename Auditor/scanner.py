@@ -11,41 +11,38 @@ def analisar_seguranca(url_list):
             response = requests.get(url, timeout=5)
             headers = response.headers
             
-            vulnerabilidades = []
+            #Extraindo os cabeçalhos
+            xfo = headers.get("X-Frame-Options", "").upper()
+            csp = headers.get("Content-Security-Policy", "").lower()
+            hsts = headers.get("Strict-Transport-Security", "").lower()
+            
+            #1. Verificacao de ClickJacking
+            seguro_xfo = "DENY" in xfo or "SAMEORIGIN" in xfo
+            seguro_csp = "frame-ancestors" in csp
 
-            # 1. Verificação de Clickjacking 
-            if "X-Frame-Options" not in headers:
-                vulnerabilidades.append("Ausência de X-Frame-Options (Risco de Clickjacking)")
-
+            if not (seguro_xfo or seguro_csp):
+                resultados.append({
+                    "link": url,
+                    "falha": "Proteção contra Clickjacking ausente ou inválida",
+                    "severidade": "Alta"
+                })
+                
             # 2. Verificação de HTTPS forçado (HSTS)
-            if "Strict-Transport-Security" not in headers:
-                vulnerabilidades.append("Ausência de HSTS (Site pode permitir conexões inseguras)")
-
+            if not hsts or "max-age" not in hsts:
+                resultados.append({
+                    "link": url,
+                    "falha": "Ausência ou má configuração de HSTS",
+                    "severidade": "Alta"
+                })
             # 3. Verificação de Proteção contra Injeção (CSP)
-            if "Content-Security-Policy" not in headers:
-                vulnerabilidades.append("Ausência de CSP (Risco de XSS)")
-
+            if not csp:
+                resultados.append({
+                    "link": url,
+                    "falha": "Ausência total de CSP (Risco de XSS)",
+                    "severidade": "Média"
+                })
             # Armazenamos o resultado desta URL específica
-            resultados.append({
-                "url": url,
-                "status": response.status_code,
-                "falhas": vulnerabilidades
-            })
-
         except requests.exceptions.RequestException as e:
             print(f"[-] Não foi possível auditar {url}: {e}")
 
     return resultados
-
-"A partir dessa linha é só um teste, será apagado depois de desenvolver todo o scanner"
-if __name__ == "__main__":
-    links_teste = ["https://www.google.com", "http://www.ufs.br"]
-    relatorio = analisar_seguranca(links_teste)
-    
-    for item in relatorio:
-        print(f"\nAlvo: {item['url']}")
-        if item['falhas']:
-            for falha in item['falhas']:
-                print(f"  [!] {falha}")
-        else:
-            print("  [+] Nenhum problema básico encontrado.")

@@ -1,0 +1,22 @@
+============================================================
+ RELATÓRIO DE AUDITORIA - CYLOCK WEB SCOUT
+============================================================
+Data do escaneamento: 18/03/2026 às 16:14:05
+
+[!] Atenção: Foram detectadas 3 vulnerabilidades.
+
+--- ALERTA #1 ---
+URL Afetada  : http://books.toscrape.com//login
+Falha        : Ausência de HTTPS
+Severidade   : Alta
+------------------------------------------------------------
+--- ALERTA #2 ---
+URL Afetada  : http://books.toscrape.com//admin
+Falha        : X-Frame-Options ausente
+Severidade   : Média
+------------------------------------------------------------
+--- ALERTA #3 ---
+URL Afetada  : http://books.toscrape.com//sobre
+Falha        : Versão do servidor exposta
+Severidade   : Baixa
+------------------------------------------------------------
