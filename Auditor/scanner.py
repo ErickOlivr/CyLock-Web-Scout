@@ -15,6 +15,9 @@ def analisar_seguranca(url_list):
             xfo = headers.get("X-Frame-Options", "").upper()
             csp = headers.get("Content-Security-Policy", "").lower()
             hsts = headers.get("Strict-Transport-Security", "").lower()
+            xcto = headers.get("X-Content-Type-Options", "").lower()
+            referrer = headers.get("Referrer-Policy", "").lower()
+            server = headers.get("Server", "")
             
             #1. Verificacao de ClickJacking
             seguro_xfo = "DENY" in xfo or "SAMEORIGIN" in xfo
@@ -41,6 +44,31 @@ def analisar_seguranca(url_list):
                     "falha": "Ausência total de CSP (Risco de XSS)",
                     "severidade": "Média"
                 })
+
+            # 4. Verificação de MIME Sniffing
+            if "nosniff" not in xcto:
+                resultados.append({
+                    "link": url,
+                    "falha": "X-Content-Type-Options ausente (Risco de MIME Sniffing)",
+                    "severidade": "Baixa"
+                })
+
+            # 5. Verificação de Referrer Policy (Privacidade)
+            if not referrer:
+                resultados.append({
+                    "link": url,
+                    "falha": "Referrer-Policy ausente (Vazamento de metadados)",
+                    "severidade": "Baixa"
+                })
+
+            # 6. Exposição de Versão do Servidor
+            if server:
+                resultados.append({
+                    "link": url,
+                    "falha": f"Exposição de Servidor: {server}",
+                    "severidade": "Baixa (Info)"
+                })
+                
             # Armazenamos o resultado desta URL específica
         except requests.exceptions.RequestException as e:
             print(f"[-] Não foi possível auditar {url}: {e}")
