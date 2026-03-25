@@ -26,7 +26,7 @@ Certifique-se de ter o Python 3 instalado em sua máquina.
 ### Instalação
 1. Clone este repositório:
 ```bash
-git clone [https://github.com/ErickOlivr/CyLock-Web-Scout.git](https://github.com/ErickOlivr/CyLock-Web-Scout.git)
+git clone https://github.com/ErickOlivr/CyLock-Web-Scout.git
 ```
 Acesse a pasta do projeto:
 ```bash
