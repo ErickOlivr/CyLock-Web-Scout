@@ -11,6 +11,9 @@ O **CyLock Web Scout** é uma ferramenta de linha de comando (CLI) desenvolvida 
   * Ausência ou má configuração de HSTS (*Strict-Transport-Security*).
   * Proteções legadas ou ausentes contra Clickjacking (*X-Frame-Options* e *Content-Security-Policy*).
   * Ausência total de CSP (Risco de XSS).
+  * Ausência de *X-Content-Type-Options* (Risco de MIME Sniffing).
+  * Ausência de *Referrer-Policy* (Vazamento de metadados e privacidade).
+  * Exposição da versão do servidor (*Server*).
 * **Interface de Usuário (UX) e Relatórios:** Exibe o progresso e os resultados em uma tabela interativa colorida diretamente no terminal, além de exportar relatórios padronizados em `.txt`.
 
 ---
@@ -38,14 +41,14 @@ Para rodar a varredura, utilize o arquivo principal main.py passando a URL alvo 
 
 Exemplo básico:
 ```bash
-python main.py -u [http://toscrape.com](http://toscrape.com) -o relatorio.txt
+python main.py -u http://toscrape.com -o relatorio_toscrape.txt
 ```
 
 Equipe de Desenvolvimento
 
 ### O CyLock Web Scout foi construído por uma equipe de 3 integrantes, divididos por responsabilidades e módulos:
 
-Erick Oliveira - Code-Leader , Arquitetura e UX e Documentação de Relatórios (relatorios/exports.py)
+Erick Oliveira - Code-Leader , Arquitetura, UX e Documentação de Relatórios (relatorios/exports.py)
 
 Thierry - Engenharia do Mapeador Web (Crawler/spider.py)
 
