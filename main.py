@@ -7,6 +7,7 @@ from rich.panel import Panel
 from Crawler.spider import extrair_links
 from Auditor.scanner import analisar_seguranca
 from relatorios.exports import salvar_relatorio
+from relatorios.saving_in_csv import saving_in_csv
 
 console = Console()
 
@@ -61,11 +62,14 @@ def main():
 
         console.print(tabela)
         
-        #Exportação
+        #Exportação(txt ou CSV)
         
         if args.output:
             console.print(f"\n[bold blue][*] Salvando relatório em {args.output}...[/bold blue]")
-            salvar_relatorio(args.output, vulnerabilidades)
+            if args.output.lower().endswith('.csv'):
+                saving_in_csv(vulnerabilidades, args.output)
+            else:
+                salvar_relatorio(args.output, vulnerabilidades)
             console.print("[bold green][+] Relatório salvo com sucesso![/bold green]")
 
     except KeyboardInterrupt:
