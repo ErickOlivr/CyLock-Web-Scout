@@ -31,12 +31,14 @@ def analisar_seguranca(url_list):
                 })
                 
             # 2. Verificação de HTTPS forçado (HSTS)
-            if not hsts or "max-age" not in hsts:
-                resultados.append({
-                    "link": url,
-                    "falha": "Ausência ou má configuração de HSTS",
-                    "severidade": "Alta"
-                })
+            # O HSTS apenas faz sentido e é processado pelos browsers em conexões HTTPS
+            if url.statswith("https://"):
+                if not hsts or not re.search(r"max-age=\d+", hsts):
+                    resultados.append({
+                        "link": url,
+                        "falha": "Ausência ou má configuração de HSTS",
+                        "severidade": "Alta"
+                    })
             # 3. Verificação de Proteção contra Injeção (CSP)
             if not csp:
                 resultados.append({
@@ -46,7 +48,9 @@ def analisar_seguranca(url_list):
                 })
 
             # 4. Verificação de MIME Sniffing
-            if "nosniff" not in xcto:
+            # Separa os valores por vírgula e remove espaços para evitar falsos positivos
+            valores_xcto = [x.strip() for x in xcto.split(',')]
+            if "nosniff" not in valores_xcto:
                 resultados.append({
                     "link": url,
                     "falha": "X-Content-Type-Options ausente (Risco de MIME Sniffing)",
@@ -62,7 +66,8 @@ def analisar_seguranca(url_list):
                 })
 
             # 6. Exposição de Versão do Servidor
-            if server:
+            # Só regista como falha se o cabeçalho expuser números (ex: nginx/1.18.0)
+            if server and re.search(r"\d", server):
                 resultados.append({
                     "link": url,
                     "falha": f"Exposição de Servidor: {server}",
