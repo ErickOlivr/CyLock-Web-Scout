@@ -6,33 +6,39 @@ O **CyLock Web Scout** é uma ferramenta de linha de comando (CLI) desenvolvida 
 
 ## Funcionalidades
 
-* **Web Crawler Resiliente:** Navega a partir de uma URL alvo mapeando todos os links internos, com tratamento robusto contra quedas de conexão, *timeouts* e *loops* infinitos (utilizando estruturas `Set`).
-* **Scanner de Segurança Inteligente:** Analisa os *HTTP Headers* em busca de falhas de configuração, mitigando falsos positivos. Detecta:
-  * Ausência ou má configuração de HSTS (*Strict-Transport-Security*).
-  * Proteções legadas ou ausentes contra Clickjacking (*X-Frame-Options* e *Content-Security-Policy*).
-  * Ausência total de CSP (Risco de XSS).
-  * Ausência de *X-Content-Type-Options* (Risco de MIME Sniffing).
-  * Ausência de *Referrer-Policy* (Vazamento de metadados e privacidade).
-  * Exposição da versão do servidor (*Server*).
-* **Interface de Usuário (UX) e Relatórios:** Exibe o progresso e os resultados em uma tabela interativa colorida diretamente no terminal, além de exportar relatórios padronizados em `.txt`.
+* **Deep Web Crawler (Selenium):** Agora utiliza **Selenium WebDriver** para renderizar JavaScript. Isso permite mapear links dinâmicos que crawlers estáticos não conseguem ver.
+* **Módulo Fuzzer de Diretórios:** Realiza ataques de dicionário para encontrar caminhos sensíveis como `/admin`, `/backup`, `/.env` e `/config`.
+* **Filtro de Ruído Inteligente:** Implementa Expressões Regulares (Regex) para ignorar arquivos estáticos (imagens, CSS, fontes), focando a auditoria apenas em páginas HTML relevantes.
+* **Scanner de Cabeçalhos (OWASP Based):** Auditoria automatizada de:
+    * **HSTS:** Verifica se o transporte seguro é forçado em conexões HTTPS.
+    * **Clickjacking:** Analisa `X-Frame-Options` e `Content-Security-Policy` (frame-ancestors).
+    * **CSP:** Detecta ausência total ou políticas fracas (ex: `unsafe-inline`).
+    * **MIME Sniffing & Referrer-Policy:** Proteção de dados e privacidade.
+* **Relatórios Multiformato:** Exportação detalhada em `.txt` e `.csv` para análise posterior.
 
 ---
 
 ## Como Instalar e Rodar
 
-### Pré-requisitos
+### Pré-requisitos(Win)
 Certifique-se de ter o Python 3 instalado em sua máquina.
+
+### Pré-requisitos(Linux/Kali)
+O sistema deve ter o **Chromium** e o **Chromium-Driver** instalados:
+```bash
+sudo apt update && sudo apt install chromium chromium-driver -y
+```
 
 ### Instalação
 1. Clone este repositório:
 ```bash
 git clone https://github.com/ErickOlivr/CyLock-Web-Scout.git
 ```
-Acesse a pasta do projeto:
+2. Acesse a pasta do projeto:
 ```bash
 cd CyLock-Web-Scout
 ```
-Instale as bibliotecas necessárias (requests, beautifulsoup4, rich):
+3. Instale as bibliotecas necessárias (requests, beautifulsoup4, rich):
 ```bash
 pip install -r requirements.txt
 ```
@@ -48,8 +54,8 @@ Equipe de Desenvolvimento
 
 ### O CyLock Web Scout foi construído por uma equipe de 3 integrantes, divididos por responsabilidades e módulos:
 
-Erick Oliveira - Code-Leader , Arquitetura, UX e Documentação de Relatórios (relatorios/exports.py)
+Erick Oliveira - Code-Leader , Arquitetura, Fuzzer, melhorias, UX e Documentação de Relatórios
 
-Thierry - Engenharia do Mapeador Web (Crawler/spider.py)
+Thierry - Engenharia do Mapeador Web 
 
-Bernardo - Análise de Segurança (Auditor/scanner.py)
+Bernardo - Análise de Segurança 

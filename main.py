@@ -8,6 +8,7 @@ from Crawler.spider import extrair_links
 from Auditor.scanner import analisar_seguranca
 from relatorios.exports import salvar_relatorio
 from relatorios.saving_in_csv import saving_in_csv
+from Auditor.fuzzer import fuzzer_diretorios
 
 console = Console()
 
@@ -27,17 +28,23 @@ def main():
     
     try:
         #crawler
-        with console.status(f"\n[bold yellow][*] Iniciando reconhecimento no alvo:[/bold yellow] [green]{alvo}[/green]\n"):
-            time.sleep(2)
+        console.status("[bold blue]A procura de urls...[/bold blue]")
+        links_encontrados = extrair_links(alvo)
+        
+        #Fuzzer
+        with console.status("[bold blue]À procura de diretórios ocultos...[/bold blue]"):
+            links_ocultos = fuzzer_diretorios(alvo)
+            links_encontrados.extend(links_ocultos)
             
-            links_encontrados = extrair_links(alvo)
+            links_encontrados = list(set(links_encontrados))#limpa links duplicados
             
-            console.print(f"[bold green][+] Crawler finalizado![/bold green] Foram encontrados {len(links_encontrados)} links.\n")
+        console.print(f"\n[bold green][+] Mapeamento finalizado![/bold green] Foram encontrados [bold yellow]{len(links_encontrados)}[/bold yellow] links no total.\n")
+        
+        console.print("[cyan]Links descobertos para auditoria:[/cyan]")
+        for link in links_encontrados:
+            console.print(f"  - {link}")
+        print("\n")
             
-            console.print("[cyan]Links descobertos:[/cyan]")
-            for link in links_encontrados:
-                console.print(f"  - {link}")
-            print("\n")
         
         #auditor    
         with console.status("[bold magenta]Fase 2: Auditando cabeçalhos de segurança...[/bold magenta]"):

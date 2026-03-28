@@ -1,33 +1,66 @@
-﻿from urllib.parse import urljoin
+﻿from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 import requests
+import re
+import time
+
+"""
+FUNCIONALIDADE: Mapeador Web Avançado (Crawler).
+Utiliza Selenium para renderizar JavaScript, permitindo encontrar links em Single Page Applications (SPAs).
+Implementa filtros de Regex para evitar o escaneamento de arquivos estáticos (lixo/ruído).
+"""
 
 def extrair_links(target_url):
-    links_encontrados = set()
-    print(f"  [Crawler] Acessando {target_url}...")
+    links= set()
+    # Configurações de "Hardening" para rodar o navegador em ambientes Linux/VM
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox") # Permite rodar no Kali
+    options.add_argument("--disable-dev-shm-usage") # Evita que a VM feche o Chrome por falta de memória
+    
+    options.binary_location = "/usr/bin/chromium"
+    
+    # 2. Usa o driver nativo do Kali em vez do ChromeDriverManager
+    servico = Service("/usr/bin/chromedriver")
+    
+    driver = webdriver.Chrome(service=servico, options=options)
+    
 
     try:
+        driver.get(target_url)
+        time.sleep(3) # Dá tempo para o JS carregar
         
-        page = requests.get(target_url, timeout=30)
-    
-    #Se a página der erro 404 (Não Encontrado) ou 500 (Erro de Servidor), ele pula direto para o 'except'
-        page.raise_for_status()
-    
-        soup = BeautifulSoup(page.text, 'html.parser')
-
-        for link in soup.find_all('a'):
-            href = link.get('href')
-            if not href or href.startswith('#'):
-                continue
+        html_renderizado = driver.page_source
+        soup = BeautifulSoup(html_renderizado, 'html.parser')
+        
+        # Procura em MÚLTIPLAS tags
+        for tag in soup.find_all(['a', 'form', 'iframe', 'script']):
+            link = tag.get('href') or tag.get('action') or tag.get('src')
+            if link and not link.startswith(('#', 'javascript:', 'mailto:')):
+                links.add(urljoin(target_url, link))
+                
+        # Técnica de "Deep Scraping": Busca links em tags HTML e também via Regex no código bruto
+        # Isso permite capturar endpoints de API escondidos em variáveis JavaScript
+        padrao_caminhos = re.findall(r'["\'](/[\w\.\-/]+)["\']', html_renderizado)
+        for caminho in padrao_caminhos:
+            links.add(urljoin(target_url, caminho))
             
-            full_link = urljoin(target_url, href)
-            links_encontrados.add(full_link)
+    except Exception as e:
+        print(f"  [X] Erro ao extrair links com Selenium: {e}")
+    finally:
+        driver.quit()
         
-    except requests.exceptions.Timeout:
-        print(f"  [X] O site {target_url} demorou mais de 10 segundos para responder (Timeout).")
-    except requests.exceptions.ConnectionError:
-        print(f"  [X] Falha de conexão. O site {target_url} pode estar fora do ar ou o link é inválido.")
-    except Exception as erro:
-        print(f"  [X] Erro inesperado ao acessar {target_url}: {erro}")
-        
-    return list(links_encontrados)
+    padrao_ignorados = re.compile(r'\.(jpg|jpeg|png|webp|gif|svg|ico|css|js|woff|woff2|ttf|eot|mp4|mp3|pdf)(?:$|\?|/)')
+    
+    links_limpos = []
+    
+    for link in links:
+        # Filtro de Eficiência: Remove imagens, CSS e fontes para focar apenas em páginas auditáveis
+        if not padrao_ignorados.search(link.lower()):
+            links_limpos.append(link)
+            
+    return links_limpos

@@ -1,6 +1,12 @@
 import requests
 import re
 
+"""
+FUNCIONALIDADE: Scanner de Cabeçalhos de Segurança.
+Realiza uma auditoria passiva baseada nas recomendações da OWASP.
+Verifica defesas contra XSS, Clickjacking, MIME Sniffing e vazamento de dados.
+"""
+
 def analisar_seguranca(url_list):
     resultados = []
 
@@ -14,7 +20,7 @@ def analisar_seguranca(url_list):
             
             url_final = response.url
             
-            #Extraindo os cabeçalhos
+            # Validação de Clickjacking: Checa tanto o legado X-Frame-Options quanto o moderno CSP
             xfo = headers.get("X-Frame-Options", "").upper()
             csp = headers.get("Content-Security-Policy", "").lower()
             hsts = headers.get("Strict-Transport-Security", "").lower()
@@ -34,8 +40,9 @@ def analisar_seguranca(url_list):
                 })
                 
             # 2. Verificação de HTTPS forçado (HSTS)
-            # O HSTS apenas faz sentido e é processado pelos browsers em conexões HTTPS
+            # Mitigação de Falso Positivo: Só cobra HSTS se o site já estiver em HTTPS
             if url_final.startswith("https://"):
+                # Verifica se o tempo de vida do HSTS (max-age) está configurado
                 if not hsts or not re.search(r"max-age=\d+", hsts):
                     resultados.append({
                         "link": url,
