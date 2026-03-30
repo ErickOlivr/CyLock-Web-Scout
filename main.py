@@ -28,10 +28,12 @@ def main():
     
     try:
         #crawler
+        console.print("[bold yellow][!] Iniciando Reconhecimento Dinâmico (Spider)...[/bold yellow]")
         console.status("[bold blue]A procura de urls...[/bold blue]")
         links_encontrados = extrair_links(alvo)
         
         #Fuzzer
+        console.print("[bold blue][!] Iniciando Descoberta Ativa (Fuzzer)...[/bold blue]")
         with console.status("[bold blue]À procura de diretórios ocultos...[/bold blue]"):
             links_ocultos = fuzzer_diretorios(alvo)
             links_encontrados.extend(links_ocultos)
@@ -46,7 +48,8 @@ def main():
         print("\n")
             
         
-        #auditor    
+        #auditor
+        console.print("[bold cyan][!] Iniciando Auditoria de Cabeçalhos (Scanner)...[/bold cyan]")    
         with console.status("[bold magenta]Fase 2: Auditando cabeçalhos de segurança...[/bold magenta]"):
             time.sleep(2)
             

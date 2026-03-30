@@ -11,7 +11,6 @@ def fuzzer_diretorios(target_url):
     wordlist = ["admin", "login", "config", ".env", "backup", "api/v1", "db"]
     encontrados = []
     
-    print(f"[*] A iniciar Fuzzing em: {target_url}")
     # Itera sobre a wordlist: baseada nos caminhos mais visados em ataques reais
     for path in wordlist:
         base_url = target_url if target_url.endswith('/') else target_url + '/'

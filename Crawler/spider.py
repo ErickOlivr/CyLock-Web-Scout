@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import time
+import os
 
 """
 FUNCIONALIDADE: Mapeador Web Avançado (Crawler).
@@ -18,14 +19,18 @@ def extrair_links(target_url):
     links= set()
     # Configurações de "Hardening" para rodar o navegador em ambientes Linux/VM
     options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox") # Permite rodar no Kali
-    options.add_argument("--disable-dev-shm-usage") # Evita que a VM feche o Chrome por falta de memória
-    
-    options.binary_location = "/usr/bin/chromium"
-    
-    # 2. Usa o driver nativo do Kali em vez do ChromeDriverManager
-    servico = Service("/usr/bin/chromedriver")
+    options.add_argument("--headless") # Roda sem abrir a janela do navegador
+
+    # DETECÇÃO AUTOMÁTICA DE SISTEMA OPERACIONAL
+    if os.name == 'nt':  # 'nt' significa que o sistema é Windows
+        # No Windows, o webdriver-manager baixa e configura o driver sozinho
+        servico = Service(ChromeDriverManager().install())
+    else:
+        # No Linux (Kali), usamos o caminho nativo que instalamos via apt
+        options.binary_location = "/usr/bin/chromium"
+        servico = Service("/usr/bin/chromedriver")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
     
     driver = webdriver.Chrome(service=servico, options=options)
     
