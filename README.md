@@ -42,17 +42,24 @@ cd CyLock-Web-Scout
 ```bash
 pip install -r requirements.txt
 ```
+
+---
+
 ### Modo de Uso
-Para rodar a varredura, utilize o arquivo principal main.py passando a URL alvo com a flag -u. Você também pode usar a flag -o para gerar o relatório final.
+Para rodar a varredura, utilize o arquivo principal main.py passando a URL alvo com a flag `-u`. Você também pode usar a flag `-o` para gerar o relatório final, podendo escolher entre `.txt` ou `.csv`.
 
 Exemplo básico:
 ```bash
 python main.py -u http://toscrape.com -o relatorio_toscrape.txt
 ```
+```bash
+python main.py -u http://toscrape.com -o relatorio_toscrape.csv
+```
 
-Equipe de Desenvolvimento
+---
 
-### O CyLock Web Scout foi construído por uma equipe de 3 integrantes, divididos por responsabilidades e módulos:
+### Equipe de Desenvolvimento
+
 
 Erick Oliveira - Code-Leader , Arquitetura, Fuzzer, melhorias, UX e Documentação de Relatórios
 
